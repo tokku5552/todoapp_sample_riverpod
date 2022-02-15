@@ -1,13 +1,13 @@
-class TodoItem {
-  TodoItem({
-    required this.id,
-    required this.title,
-    required this.detail,
-    required this.isDone,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  String id;
-  String title;
-  String detail;
-  bool isDone;
+part 'todo_item.freezed.dart';
+
+@freezed
+class TodoItem with _$TodoItem {
+  factory TodoItem({
+    required String id,
+    required String title,
+    required String detail,
+    required bool isDone,
+  }) = _TodoItem;
 }
