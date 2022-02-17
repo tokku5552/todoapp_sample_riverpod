@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 
-final todoListRepository = Provider((ref) => TodoListRepository());
+final todoItemRepository = Provider((ref) => TodoItemRepository());
 
-class TodoListRepository {
+class TodoItemRepository {
   final _db = FirebaseFirestore.instance;
 
   Future<List<TodoItem>> findAll() async {
