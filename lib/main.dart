@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp_sample_riverpod/page/todo_list_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_page.dart';
 
-void main() {
-  runApp(const App());
+import 'infrastructure/todo_item_repository.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
