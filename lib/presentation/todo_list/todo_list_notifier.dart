@@ -19,6 +19,6 @@ class TodoListNotifier extends StateNotifier<TodoListState> {
   Future<void> init() async {
     state = state.copyWith(isFetching: true);
     final list = await _todoItemRepository.findAll();
-    state.copyWith(todoList: list, isFetching: false);
+    state = state.copyWith(todoList: list, isFetching: false);
   }
 }
