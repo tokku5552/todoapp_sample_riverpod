@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
+import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_page.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
 
 class TodoListPage extends ConsumerWidget {
@@ -9,6 +11,8 @@ class TodoListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(todoListStateProvider);
     final notifier = ref.watch(todoListStateProvider.notifier);
+    final detailNotifier = ref.watch(todoDetailStateProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo List Page'),
@@ -28,10 +32,49 @@ class TodoListPage extends ConsumerWidget {
                     leading: Checkbox(
                       value: item.isDone,
                       onChanged: (bool? value) {
-                        // TODO: implement
+                        detailNotifier.checkBox(id: item.id, isDone: value);
+                        notifier.init();
                       },
                     ),
                     title: Text(item.title),
+                    onTap: () {
+                      detailNotifier.passItem(item.id);
+                      showModalBottomSheet(
+                        useRootNavigator: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const TodoListDetailPage(
+                            newTodo: false,
+                          );
+                        },
+                      );
+                    },
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: const Text("Todoアイテムを削除"),
+                            content: const Text("アイテムを削除しますか"),
+                            actions: [
+                              TextButton(
+                                child: const Text("Cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              TextButton(
+                                child: const Text("削除"),
+                                onPressed: () {
+                                  notifier.deleteItem(id: item.id);
+                                  notifier.init();
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 )
                 .toList(),
@@ -39,8 +82,16 @@ class TodoListPage extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await notifier.init();
+        onPressed: () {
+          showModalBottomSheet(
+            useRootNavigator: true,
+            context: context,
+            builder: (BuildContext context) {
+              return const TodoListDetailPage(
+                newTodo: true,
+              );
+            },
+          );
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

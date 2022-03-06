@@ -21,4 +21,8 @@ class TodoListNotifier extends StateNotifier<TodoListState> {
     final list = await _todoItemRepository.findAll();
     state = state.copyWith(todoList: list, isFetching: false);
   }
+
+  Future<void> deleteItem({required String id}) async {
+    _todoItemRepository.delete(id: id);
+  }
 }
