@@ -15,6 +15,11 @@ class TodoItemDetailModal extends ConsumerWidget {
     final state = ref.watch(todoDetailStateProvider);
     final notifier = ref.watch(todoDetailStateProvider.notifier);
     final listNotifier = ref.watch(todoListStateProvider.notifier);
+    final titleTextController =
+        TextEditingController(text: newItemFlag ? null : state.todoItem?.title);
+    final detailTextController = TextEditingController(
+        text: newItemFlag ? null : state.todoItem?.detail);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -29,8 +34,7 @@ class TodoItemDetailModal extends ConsumerWidget {
                       style: const TextStyle(
                         fontSize: 25,
                       ),
-                      controller: TextEditingController(
-                          text: newItemFlag ? null : state.todoItem?.title),
+                      controller: titleTextController,
                       decoration: InputDecoration(
                           hintText: newItemFlag ? '明日9時会議' : null),
                       onChanged: (String value) {
@@ -62,8 +66,7 @@ class TodoItemDetailModal extends ConsumerWidget {
               child: TextField(
                 maxLines: 10,
                 minLines: 5,
-                controller: TextEditingController(
-                    text: newItemFlag ? null : state.todoItem?.detail),
+                controller: detailTextController,
                 decoration: InputDecoration(
                   hintText: newItemFlag ? '例：大西さんと京都駅の大山オフィスにて会議' : null,
                   border: const OutlineInputBorder(),
