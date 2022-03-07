@@ -83,6 +83,6 @@ class TodoItemRepository {
 
   Future<void> delete({required String id}) async {
     final documentRef = _db.collection('todo_item').doc(id);
-    return documentRef.delete();
+    documentRef.delete();
   }
 }
