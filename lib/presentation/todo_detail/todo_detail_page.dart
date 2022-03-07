@@ -65,7 +65,7 @@ class TodoItemDetailModal extends ConsumerWidget {
               ],
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(60, 0, 60, 200),
+              margin: const EdgeInsets.fromLTRB(60, 0, 60, 140),
               child: TextField(
                 maxLines: 10,
                 minLines: 5,
