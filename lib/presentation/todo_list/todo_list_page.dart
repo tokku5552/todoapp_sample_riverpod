@@ -38,7 +38,7 @@ class TodoListPage extends ConsumerWidget {
                     ),
                     title: Text(item.title),
                     onTap: () {
-                      detailNotifier.passTodoItemId(item.id);
+                      detailNotifier.passTodoItemId(itemId: item.id);
                       showModalBottomSheet(
                         useRootNavigator: true,
                         context: context,

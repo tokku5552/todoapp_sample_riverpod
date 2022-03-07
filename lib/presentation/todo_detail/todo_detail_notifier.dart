@@ -24,15 +24,15 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     await _todoItemRepository.create(title: title, detail: detail);
   }
 
-  Future<void> passTodoItemId(String id) async {
+  Future<void> passTodoItemId({required String itemId}) async {
     state = state.copyWith(isFetching: true);
-    final item = await _todoItemRepository.findById(id: id);
+    final item = await _todoItemRepository.findById(id: itemId);
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
-  Future<void> itemDetail(String id) async {
+  Future<void> itemDetail({required String itemId}) async {
     state = state.copyWith(isFetching: true);
-    final item = await _todoItemRepository.findById(id: id);
+    final item = await _todoItemRepository.findById(id: itemId);
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
@@ -48,7 +48,7 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   Future<bool?> boxBool(String id) async {
     final item = await _todoItemRepository.findById(id: id);
-    itemDetail(id);
+    itemDetail(itemId: id);
     return item.isDone;
   }
 

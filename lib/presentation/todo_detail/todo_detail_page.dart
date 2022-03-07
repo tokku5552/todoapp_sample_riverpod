@@ -49,7 +49,7 @@ class TodoListDetailPage extends ConsumerWidget {
                         newTodo
                             ? notifier.createTodoItem(
                                 title: newTitle, detail: newDetail)
-                            : notifier.itemDetail(state.todoItem!.id);
+                            : notifier.itemDetail(itemId: state.todoItem!.id);
                         Navigator.pop(context);
                         listNotifier.init();
                       }),
