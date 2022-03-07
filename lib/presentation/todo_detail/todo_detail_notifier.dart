@@ -4,14 +4,14 @@ import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_state.dart';
 
 final todoDetailStateProvider =
-    StateNotifierProvider<TodoItemNotifier, TodoDetailState>(
-  (ref) => TodoItemNotifier(
+    StateNotifierProvider<TodoDetailNotifier, TodoDetailState>(
+  (ref) => TodoDetailNotifier(
     todoItemRepository: ref.read(todoItemRepository),
   ),
 );
 
-class TodoItemNotifier extends StateNotifier<TodoDetailState> {
-  TodoItemNotifier({required TodoItemRepository todoItemRepository})
+class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
+  TodoDetailNotifier({required TodoItemRepository todoItemRepository})
       : _todoItemRepository = todoItemRepository,
         super(const TodoDetailState());
 
