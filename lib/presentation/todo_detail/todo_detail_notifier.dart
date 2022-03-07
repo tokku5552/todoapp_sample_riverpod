@@ -24,7 +24,7 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     await _todoItemRepository.create(title: title, detail: detail);
   }
 
-  Future<void> passItem(String id) async {
+  Future<void> passTodoItemId(String id) async {
     state = state.copyWith(isFetching: true);
     final item = await _todoItemRepository.findById(id: id);
     state = state.copyWith(todoItem: item, isFetching: false);
