@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
 
-class TodoListDetailPage extends ConsumerWidget {
-  const TodoListDetailPage({required this.newItemFlag, Key? key})
+class TodoItemDetailModal extends ConsumerWidget {
+  const TodoItemDetailModal({required this.newItemFlag, Key? key})
       : super(key: key);
   final bool newItemFlag;
 

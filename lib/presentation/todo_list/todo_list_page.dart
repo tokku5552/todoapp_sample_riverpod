@@ -43,7 +43,7 @@ class TodoListPage extends ConsumerWidget {
                         useRootNavigator: true,
                         context: context,
                         builder: (BuildContext context) {
-                          return const TodoListDetailPage(
+                          return const TodoItemDetailModal(
                             newItemFlag: false,
                           );
                         },
@@ -87,7 +87,7 @@ class TodoListPage extends ConsumerWidget {
             useRootNavigator: true,
             context: context,
             builder: (BuildContext context) {
-              return const TodoListDetailPage(
+              return const TodoItemDetailModal(
                 newItemFlag: true,
               );
             },
