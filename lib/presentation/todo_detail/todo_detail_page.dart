@@ -47,7 +47,7 @@ class TodoListDetailPage extends ConsumerWidget {
                       child: Text(newTodo ? '新規作成' : '更新'),
                       onPressed: () {
                         newTodo
-                            ? notifier.newItem(
+                            ? notifier.createTodoItem(
                                 title: newTitle, detail: newDetail)
                             : notifier.itemDetail(state.todoItem!.id);
                         Navigator.pop(context);

@@ -17,7 +17,7 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   final TodoItemRepository _todoItemRepository;
 
-  Future<void> newItem({
+  Future<void> createTodoItem({
     required String title,
     required String detail,
   }) async {
