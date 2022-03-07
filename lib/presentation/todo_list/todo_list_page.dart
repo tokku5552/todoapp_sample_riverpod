@@ -44,7 +44,7 @@ class TodoListPage extends ConsumerWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return const TodoListDetailPage(
-                            newTodo: false,
+                            newItemFlag: false,
                           );
                         },
                       );
@@ -88,7 +88,7 @@ class TodoListPage extends ConsumerWidget {
             context: context,
             builder: (BuildContext context) {
               return const TodoListDetailPage(
-                newTodo: true,
+                newItemFlag: true,
               );
             },
           );
