@@ -21,7 +21,7 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     required String title,
     required String detail,
   }) async {
-    await _todoItemRepository.create(title: title, detail: detail);
+    await _todoItemRepository.createItem(title: title, detail: detail);
   }
 
   Future<void> passTodoItemId({required String itemId}) async {
@@ -36,20 +36,10 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
-  Future<void> updateDetail({
-    required TodoItem item,
-    required String detail,
-  }) async {
-    await _todoItemRepository.detailUpdate(
-      item: item,
-      detail: detail,
-    );
-  }
-
   Future<void> updateItem({
     required TodoItem todoItem,
-    required String todoTitle,
-    required String todoDetail,
+    required String? todoTitle,
+    required String? todoDetail,
   }) async {
     await _todoItemRepository.updateTitleAndDetail(
       item: todoItem,
@@ -60,15 +50,5 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   Future<void> checkBox({required String id, required bool? isDone}) async {
     await _todoItemRepository.updateIsDone(id: id, isDone: isDone);
-  }
-
-  Future<void> updateTitle({
-    required TodoItem item,
-    required String title,
-  }) async {
-    await _todoItemRepository.titleUpdate(
-      item: item,
-      title: title,
-    );
   }
 }

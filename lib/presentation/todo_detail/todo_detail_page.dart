@@ -19,6 +19,8 @@ class TodoItemDetailModal extends ConsumerWidget {
         TextEditingController(text: newItemFlag ? null : state.todoItem?.title);
     final detailTextController = TextEditingController(
         text: newItemFlag ? null : state.todoItem?.detail);
+    String? updatedTitle = state.todoItem?.title;
+    String? updatedDetail = state.todoItem?.detail;
 
     return Scaffold(
       body: Center(
@@ -38,10 +40,7 @@ class TodoItemDetailModal extends ConsumerWidget {
                       decoration: InputDecoration(
                           hintText: newItemFlag ? '明日9時会議' : null),
                       onChanged: (String value) {
-                        newItemFlag
-                            ? newTitle = value
-                            : notifier.updateTitle(
-                                item: state.todoItem!, title: value);
+                        newItemFlag ? newTitle = value : updatedTitle = value;
                       },
                     ),
                   ),
@@ -54,7 +53,11 @@ class TodoItemDetailModal extends ConsumerWidget {
                         newItemFlag
                             ? notifier.createTodoItem(
                                 title: newTitle, detail: newDetail)
-                            : notifier.itemDetail(itemId: state.todoItem!.id);
+                            : notifier.updateItem(
+                                todoItem: state.todoItem!,
+                                todoTitle: updatedTitle,
+                                todoDetail: updatedDetail);
+                        notifier.itemDetail(itemId: state.todoItem!.id);
                         Navigator.pop(context);
                         listNotifier.init();
                       }),
@@ -72,10 +75,7 @@ class TodoItemDetailModal extends ConsumerWidget {
                   border: const OutlineInputBorder(),
                 ),
                 onChanged: (String value) {
-                  newItemFlag
-                      ? newDetail = value
-                      : notifier.updateDetail(
-                          item: state.todoItem!, detail: value);
+                  newItemFlag ? newDetail = value : updatedDetail = value;
                 },
               ),
             ),

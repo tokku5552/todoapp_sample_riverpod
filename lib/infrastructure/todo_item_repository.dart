@@ -10,7 +10,8 @@ final todoItemRepository = Provider((ref) => TodoItemRepository());
 class TodoItemRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<void> create({required String title, required String detail}) async {
+  Future<void> createItem(
+      {required String title, required String detail}) async {
     final collectionRef = _db.collection('todo_item');
     final String documentId = generateNonce();
     await collectionRef.doc(documentId).set({
@@ -46,25 +47,10 @@ class TodoItemRepository {
         isDone: item['isDone']);
   }
 
-  Future<TodoItem> detailUpdate({
-    required TodoItem item,
-    required String detail,
-  }) async {
-    final collectionRef = _db.collection('todo_item');
-    final updateDocument = collectionRef.doc(item.id);
-    updateDocument.update({'detail': detail});
-    final updateItem = await updateDocument.get();
-    return TodoItem(
-        id: updateItem['id'],
-        title: updateItem['title'],
-        detail: updateItem['detail'],
-        isDone: updateItem['isDone']);
-  }
-
   Future<void> updateTitleAndDetail({
     required TodoItem item,
-    required String title,
-    required String detail,
+    required String? title,
+    required String? detail,
   }) async {
     final collectionRef = _db.collection('todo_item');
     final documentRef = collectionRef.doc(item.id);
@@ -72,21 +58,6 @@ class TodoItemRepository {
       'title': title,
       'detail': detail,
     });
-  }
-
-  Future<TodoItem> titleUpdate({
-    required TodoItem item,
-    required String title,
-  }) async {
-    final collectionRef = _db.collection('todo_item');
-    final updateDocument = collectionRef.doc(item.id);
-    updateDocument.update({'title': title});
-    final updateItem = await updateDocument.get();
-    return TodoItem(
-        id: updateItem['id'],
-        title: updateItem['title'],
-        detail: updateItem['detail'],
-        isDone: updateItem['isDone']);
   }
 
   Future<void> updateIsDone({required String id, required bool? isDone}) async {
