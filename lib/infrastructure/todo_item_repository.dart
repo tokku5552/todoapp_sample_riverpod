@@ -61,6 +61,19 @@ class TodoItemRepository {
         isDone: updateItem['isDone']);
   }
 
+  Future<void> updateTitleAndDetail({
+    required TodoItem item,
+    required String title,
+    required String detail,
+  }) async {
+    final collectionRef = _db.collection('todo_item');
+    final documentRef = collectionRef.doc(item.id);
+    await documentRef.update({
+      'title': title,
+      'detail': detail,
+    });
+  }
+
   Future<TodoItem> titleUpdate({
     required TodoItem item,
     required String title,
@@ -76,12 +89,12 @@ class TodoItemRepository {
         isDone: updateItem['isDone']);
   }
 
-  Future<void> boxClick({required String id, required bool? isDone}) async {
+  Future<void> updateIsDone({required String id, required bool? isDone}) async {
     final collectionRef = _db.collection('todo_item');
     await collectionRef.doc(id).update({'isDone': isDone!});
   }
 
-  Future<void> delete({required String id}) async {
+  Future<void> deleteItem({required String id}) async {
     final documentRef = _db.collection('todo_item').doc(id);
     documentRef.delete();
   }

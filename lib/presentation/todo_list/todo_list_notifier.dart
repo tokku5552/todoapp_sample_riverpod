@@ -23,6 +23,6 @@ class TodoListNotifier extends StateNotifier<TodoListState> {
   }
 
   Future<void> deleteItem({required String id}) async {
-    await _todoItemRepository.delete(id: id);
+    await _todoItemRepository.deleteItem(id: id);
   }
 }

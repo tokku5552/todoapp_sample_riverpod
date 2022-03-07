@@ -46,8 +46,20 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     );
   }
 
+  Future<void> updateItem({
+    required TodoItem todoItem,
+    required String todoTitle,
+    required String todoDetail,
+  }) async {
+    await _todoItemRepository.updateTitleAndDetail(
+      item: todoItem,
+      title: todoTitle,
+      detail: todoDetail,
+    );
+  }
+
   Future<void> checkBox({required String id, required bool? isDone}) async {
-    await _todoItemRepository.boxClick(id: id, isDone: isDone);
+    await _todoItemRepository.updateIsDone(id: id, isDone: isDone);
   }
 
   Future<void> updateTitle({
