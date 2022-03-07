@@ -17,11 +17,38 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   final TodoItemRepository _todoItemRepository;
 
-  Future<void> createTodoItem({
-    required String title,
-    required String detail,
+  Future<void> create({required TodoItem item}) async {
+    await _todoItemRepository.create(item: item);
+  }
+
+  Future<void> updateItem({
+    required TodoItem todoItem,
   }) async {
-    await _todoItemRepository.createItem(title: title, detail: detail);
+    await _todoItemRepository.update(
+      item: todoItem,
+    );
+  }
+
+  void changeTitle(String title) {
+    state = state.copyWith(
+      todoItem: TodoItem(
+        id: state.todoItem!.id,
+        title: title,
+        detail: state.todoItem!.detail,
+        isDone: state.todoItem!.isDone,
+      ),
+    );
+  }
+
+  void changeDetail(String detail) {
+    state = state.copyWith(
+      todoItem: TodoItem(
+        id: state.todoItem!.id,
+        title: state.todoItem!.title,
+        detail: detail,
+        isDone: state.todoItem!.isDone,
+      ),
+    );
   }
 
   Future<void> passTodoItemId({required String itemId}) async {
@@ -36,16 +63,12 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
-  Future<void> updateItem({
-    required TodoItem todoItem,
-    required String? todoTitle,
-    required String? todoDetail,
-  }) async {
-    await _todoItemRepository.updateTitleAndDetail(
-      item: todoItem,
-      title: todoTitle,
-      detail: todoDetail,
-    );
+  Future<void> onPush() async {
+    if (state.todoItem != null) {
+      state.todoItem!.id != null
+          ? await updateItem(todoItem: state.todoItem!)
+          : await create(item: state.todoItem!);
+    }
   }
 
   Future<void> checkBox({required String id, required bool? isDone}) async {

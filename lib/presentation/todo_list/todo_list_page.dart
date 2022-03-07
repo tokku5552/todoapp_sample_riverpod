@@ -32,13 +32,13 @@ class TodoListPage extends ConsumerWidget {
                     leading: Checkbox(
                       value: item.isDone,
                       onChanged: (bool? value) {
-                        detailNotifier.checkBox(id: item.id, isDone: value);
+                        detailNotifier.checkBox(id: item.id!, isDone: value);
                         notifier.init();
                       },
                     ),
                     title: Text(item.title),
                     onTap: () {
-                      detailNotifier.passTodoItemId(itemId: item.id);
+                      detailNotifier.passTodoItemId(itemId: item.id!);
                       showModalBottomSheet(
                         useRootNavigator: true,
                         context: context,
@@ -65,7 +65,7 @@ class TodoListPage extends ConsumerWidget {
                               TextButton(
                                 child: const Text("削除"),
                                 onPressed: () {
-                                  notifier.deleteItem(id: item.id);
+                                  notifier.deleteItem(id: item.id!);
                                   notifier.init();
                                   Navigator.pop(context);
                                 },

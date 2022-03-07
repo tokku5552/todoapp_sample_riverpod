@@ -5,7 +5,7 @@ part 'todo_item.freezed.dart';
 @freezed
 class TodoItem with _$TodoItem {
   factory TodoItem({
-    required String id,
+    String? id,
     required String title,
     required String detail,
     required bool isDone,

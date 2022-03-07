@@ -18,7 +18,7 @@ class _$TodoItemTearOff {
   const _$TodoItemTearOff();
 
   _TodoItem call(
-      {required String id,
+      {String? id,
       required String title,
       required String detail,
       required bool isDone}) {
@@ -36,7 +36,7 @@ const $TodoItem = _$TodoItemTearOff();
 
 /// @nodoc
 mixin _$TodoItem {
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get detail => throw _privateConstructorUsedError;
   bool get isDone => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ mixin _$TodoItem {
 abstract class $TodoItemCopyWith<$Res> {
   factory $TodoItemCopyWith(TodoItem value, $Res Function(TodoItem) then) =
       _$TodoItemCopyWithImpl<$Res>;
-  $Res call({String id, String title, String detail, bool isDone});
+  $Res call({String? id, String title, String detail, bool isDone});
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$TodoItemCopyWithImpl<$Res> implements $TodoItemCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -94,7 +94,7 @@ abstract class _$TodoItemCopyWith<$Res> implements $TodoItemCopyWith<$Res> {
   factory _$TodoItemCopyWith(_TodoItem value, $Res Function(_TodoItem) then) =
       __$TodoItemCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String title, String detail, bool isDone});
+  $Res call({String? id, String title, String detail, bool isDone});
 }
 
 /// @nodoc
@@ -117,7 +117,7 @@ class __$TodoItemCopyWithImpl<$Res> extends _$TodoItemCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -138,13 +138,13 @@ class __$TodoItemCopyWithImpl<$Res> extends _$TodoItemCopyWithImpl<$Res>
 
 class _$_TodoItem implements _TodoItem {
   _$_TodoItem(
-      {required this.id,
+      {this.id,
       required this.title,
       required this.detail,
       required this.isDone});
 
   @override
-  final String id;
+  final String? id;
   @override
   final String title;
   @override
@@ -179,13 +179,13 @@ class _$_TodoItem implements _TodoItem {
 
 abstract class _TodoItem implements TodoItem {
   factory _TodoItem(
-      {required String id,
+      {String? id,
       required String title,
       required String detail,
       required bool isDone}) = _$_TodoItem;
 
   @override
-  String get id;
+  String? get id;
   @override
   String get title;
   @override

@@ -10,8 +10,6 @@ class TodoItemDetailModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String newTitle = '';
-    String newDetail = '';
     final state = ref.watch(todoDetailStateProvider);
     final notifier = ref.watch(todoDetailStateProvider.notifier);
     final listNotifier = ref.watch(todoListStateProvider.notifier);
@@ -19,8 +17,6 @@ class TodoItemDetailModal extends ConsumerWidget {
         TextEditingController(text: newItemFlag ? null : state.todoItem?.title);
     final detailTextController = TextEditingController(
         text: newItemFlag ? null : state.todoItem?.detail);
-    String? updatedTitle = state.todoItem?.title;
-    String? updatedDetail = state.todoItem?.detail;
 
     return Scaffold(
       body: Center(
@@ -40,7 +36,7 @@ class TodoItemDetailModal extends ConsumerWidget {
                       decoration: InputDecoration(
                           hintText: newItemFlag ? '明日9時会議' : null),
                       onChanged: (String value) {
-                        newItemFlag ? newTitle = value : updatedTitle = value;
+                        notifier.changeTitle(value);
                       },
                     ),
                   ),
@@ -49,15 +45,8 @@ class TodoItemDetailModal extends ConsumerWidget {
                   margin: const EdgeInsets.fromLTRB(0, 0, 60, 20),
                   child: ElevatedButton(
                       child: Text(newItemFlag ? '新規作成' : '更新'),
-                      onPressed: () {
-                        newItemFlag
-                            ? notifier.createTodoItem(
-                                title: newTitle, detail: newDetail)
-                            : notifier.updateItem(
-                                todoItem: state.todoItem!,
-                                todoTitle: updatedTitle,
-                                todoDetail: updatedDetail);
-                        notifier.itemDetail(itemId: state.todoItem!.id);
+                      onPressed: () async {
+                        await notifier.onPush();
                         Navigator.pop(context);
                         listNotifier.init();
                       }),
@@ -75,7 +64,7 @@ class TodoItemDetailModal extends ConsumerWidget {
                   border: const OutlineInputBorder(),
                 ),
                 onChanged: (String value) {
-                  newItemFlag ? newDetail = value : updatedDetail = value;
+                  notifier.changeDetail(value);
                 },
               ),
             ),
