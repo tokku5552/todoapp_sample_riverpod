@@ -17,8 +17,11 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   final TodoItemRepository _todoItemRepository;
 
-  Future<void> create({required TodoItem item}) async {
-    await _todoItemRepository.create(item: item);
+  Future<void> create({required String title, required String detail}) async {
+    await _todoItemRepository.create(
+      title: title,
+      detail: detail,
+    );
   }
 
   Future<void> updateItem({
@@ -63,15 +66,25 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
-  Future<void> onPush() async {
+  Future<void> onPush(
+    String title,
+    String detail,
+  ) async {
     if (state.todoItem != null) {
-      state.todoItem!.id != null
-          ? await updateItem(todoItem: state.todoItem!)
-          : await create(item: state.todoItem!);
+      changeTitle(title);
+      changeDetail(detail);
+      await updateItem(todoItem: state.todoItem!);
+    } else {
+      await create(title: title, detail: detail);
     }
   }
 
   Future<void> checkBox({required String id, required bool? isDone}) async {
     await _todoItemRepository.updateIsDone(id: id, isDone: isDone);
+  }
+
+  //下のコードはリファクタリングして、消す予定の仮のメソッドです。
+  void cleanState() {
+    state = state.copyWith(todoItem: null);
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todoapp_sample_riverpod/common/random_str.dart';
 import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 
 final todoItemRepository = Provider((ref) => TodoItemRepository());
@@ -10,11 +9,14 @@ final todoItemRepository = Provider((ref) => TodoItemRepository());
 class TodoItemRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<void> create({required TodoItem item}) async {
+  Future<void> create({
+    required String title,
+    required String detail,
+  }) async {
     final collectionRef = _db.collection('todo_item');
     await collectionRef.add({
-      'title': item.title,
-      'detail': item.detail,
+      'title': title,
+      'detail': detail,
       'isDone': false,
     });
   }

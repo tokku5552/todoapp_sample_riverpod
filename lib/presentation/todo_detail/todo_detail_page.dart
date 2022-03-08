@@ -43,11 +43,11 @@ class TodoItemDetailModal extends ConsumerWidget {
                   child: ElevatedButton(
                       child: Text(todoItem == null ? '新規作成' : '更新'),
                       onPressed: () async {
-                        notifier.changeTitle(titleTextController.text);
-                        notifier.changeDetail(detailTextController.text);
-                        await notifier.onPush();
-                        Navigator.pop(context);
+                        await notifier.onPush(titleTextController.text,
+                            detailTextController.text);
                         listNotifier.init();
+                        notifier.cleanState();
+                        Navigator.pop(context);
                       }),
                 )
               ],
