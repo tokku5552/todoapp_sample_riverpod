@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
 
 class TodoItemDetailModal extends ConsumerWidget {
-  const TodoItemDetailModal({required this.newItemFlag, Key? key})
-      : super(key: key);
-  final bool newItemFlag;
+  const TodoItemDetailModal({this.todoItem, Key? key}) : super(key: key);
+  final TodoItem? todoItem;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(todoDetailStateProvider);
     final notifier = ref.watch(todoDetailStateProvider.notifier);
     final listNotifier = ref.watch(todoListStateProvider.notifier);
-    final titleTextController =
-        TextEditingController(text: newItemFlag ? null : state.todoItem?.title);
+    final titleTextController = TextEditingController(
+        text: todoItem == null ? null : state.todoItem?.title);
     final detailTextController = TextEditingController(
-        text: newItemFlag ? null : state.todoItem?.detail);
+        text: todoItem == null ? null : state.todoItem?.detail);
 
     return Scaffold(
       body: Center(
@@ -34,18 +34,17 @@ class TodoItemDetailModal extends ConsumerWidget {
                       ),
                       controller: titleTextController,
                       decoration: InputDecoration(
-                          hintText: newItemFlag ? '明日9時会議' : null),
-                      onChanged: (String value) {
-                        notifier.changeTitle(value);
-                      },
+                          hintText: todoItem == null ? '明日9時会議' : null),
                     ),
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 60, 20),
                   child: ElevatedButton(
-                      child: Text(newItemFlag ? '新規作成' : '更新'),
+                      child: Text(todoItem == null ? '新規作成' : '更新'),
                       onPressed: () async {
+                        notifier.changeTitle(titleTextController.text);
+                        notifier.changeDetail(detailTextController.text);
                         await notifier.onPush();
                         Navigator.pop(context);
                         listNotifier.init();
@@ -60,12 +59,9 @@ class TodoItemDetailModal extends ConsumerWidget {
                 minLines: 5,
                 controller: detailTextController,
                 decoration: InputDecoration(
-                  hintText: newItemFlag ? '例：大西さんと京都駅の大山オフィスにて会議' : null,
+                  hintText: todoItem == null ? '例：大西さんと京都駅の大山オフィスにて会議' : null,
                   border: const OutlineInputBorder(),
                 ),
-                onChanged: (String value) {
-                  notifier.changeDetail(value);
-                },
               ),
             ),
           ],
