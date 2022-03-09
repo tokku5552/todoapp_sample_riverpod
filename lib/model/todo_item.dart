@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'todo_item.freezed.dart';
+part 'todo_item.g.dart';
 
 @freezed
 class TodoItem with _$TodoItem {
@@ -8,6 +9,11 @@ class TodoItem with _$TodoItem {
     String? id,
     required String title,
     required String detail,
-    required bool isDone,
+    @Default(false) bool isDone,
   }) = _TodoItem;
+
+  factory TodoItem.fromJson(Map<String, dynamic> json) =>
+      _$TodoItemFromJson(json);
+
+  factory TodoItem.initialize() => TodoItem(title: "", detail: "");
 }
