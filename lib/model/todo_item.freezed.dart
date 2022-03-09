@@ -13,6 +13,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+TodoItem _$TodoItemFromJson(Map<String, dynamic> json) {
+  return _TodoItem.fromJson(json);
+}
+
 /// @nodoc
 class _$TodoItemTearOff {
   const _$TodoItemTearOff();
@@ -21,13 +25,17 @@ class _$TodoItemTearOff {
       {String? id,
       required String title,
       required String detail,
-      required bool isDone}) {
+      bool isDone = false}) {
     return _TodoItem(
       id: id,
       title: title,
       detail: detail,
       isDone: isDone,
     );
+  }
+
+  TodoItem fromJson(Map<String, Object?> json) {
+    return TodoItem.fromJson(json);
   }
 }
 
@@ -41,6 +49,7 @@ mixin _$TodoItem {
   String get detail => throw _privateConstructorUsedError;
   bool get isDone => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TodoItemCopyWith<TodoItem> get copyWith =>
       throw _privateConstructorUsedError;
@@ -135,13 +144,16 @@ class __$TodoItemCopyWithImpl<$Res> extends _$TodoItemCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_TodoItem implements _TodoItem {
   _$_TodoItem(
       {this.id,
       required this.title,
       required this.detail,
-      required this.isDone});
+      this.isDone = false});
+
+  factory _$_TodoItem.fromJson(Map<String, dynamic> json) =>
+      _$$_TodoItemFromJson(json);
 
   @override
   final String? id;
@@ -149,6 +161,7 @@ class _$_TodoItem implements _TodoItem {
   final String title;
   @override
   final String detail;
+  @JsonKey(defaultValue: false)
   @override
   final bool isDone;
 
@@ -175,6 +188,11 @@ class _$_TodoItem implements _TodoItem {
   @override
   _$TodoItemCopyWith<_TodoItem> get copyWith =>
       __$TodoItemCopyWithImpl<_TodoItem>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TodoItemToJson(this);
+  }
 }
 
 abstract class _TodoItem implements TodoItem {
@@ -182,7 +200,9 @@ abstract class _TodoItem implements TodoItem {
       {String? id,
       required String title,
       required String detail,
-      required bool isDone}) = _$_TodoItem;
+      bool isDone}) = _$_TodoItem;
+
+  factory _TodoItem.fromJson(Map<String, dynamic> json) = _$_TodoItem.fromJson;
 
   @override
   String? get id;

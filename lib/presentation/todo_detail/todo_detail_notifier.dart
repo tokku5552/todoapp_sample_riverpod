@@ -17,37 +17,23 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   final TodoItemRepository _todoItemRepository;
 
-  Future<void> create({required String title, required String detail}) async {
-    await _todoItemRepository.create(
-      title: title,
-      detail: detail,
-    );
+  Future<void> create() async {
+    final newItemId =
+        await _todoItemRepository.create(item: TodoItem.initialize());
+    await passTodoItemId(itemId: newItemId);
   }
 
   Future<void> updateItem({
     required TodoItem todoItem,
   }) async {
-    await _todoItemRepository.update(
-      item: todoItem,
-    );
+    await _todoItemRepository.update(item: todoItem);
   }
 
-  void changeTitle(String title) {
+  void changeTitleAndDetail(String title, String detail) {
     state = state.copyWith(
       todoItem: TodoItem(
         id: state.todoItem!.id,
         title: title,
-        detail: state.todoItem!.detail,
-        isDone: state.todoItem!.isDone,
-      ),
-    );
-  }
-
-  void changeDetail(String detail) {
-    state = state.copyWith(
-      todoItem: TodoItem(
-        id: state.todoItem!.id,
-        title: state.todoItem!.title,
         detail: detail,
         isDone: state.todoItem!.isDone,
       ),
@@ -66,24 +52,21 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
-  Future<void> onPush(
-    String title,
-    String detail,
-  ) async {
-    if (state.todoItem != null) {
-      changeTitle(title);
-      changeDetail(detail);
-      await updateItem(todoItem: state.todoItem!);
-    } else {
-      await create(title: title, detail: detail);
+  Future<void> onPush({
+    required String title,
+    required String detail,
+  }) async {
+    if (state.todoItem == null) {
+      await create();
     }
+    changeTitleAndDetail(title, detail);
+    await updateItem(todoItem: state.todoItem!);
   }
 
   Future<void> checkBox({required String id, required bool? isDone}) async {
     await _todoItemRepository.updateIsDone(id: id, isDone: isDone);
   }
 
-  //下のコードはリファクタリングして、消す予定の仮のメソッドです。
   void cleanState() {
     state = state.copyWith(todoItem: null);
   }

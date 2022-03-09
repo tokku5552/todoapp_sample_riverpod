@@ -9,16 +9,16 @@ final todoItemRepository = Provider((ref) => TodoItemRepository());
 class TodoItemRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<void> create({
-    required String title,
-    required String detail,
-  }) async {
+  Future<String> create({required TodoItem item}) async {
     final collectionRef = _db.collection('todo_item');
-    await collectionRef.add({
-      'title': title,
-      'detail': detail,
-      'isDone': false,
+    final newDoc = collectionRef.doc();
+    await newDoc.set({
+      'id': newDoc.id,
+      'title': item.title,
+      'detail': item.detail,
+      'isDone': item.isDone,
     });
+    return newDoc.id;
   }
 
   Future<List<TodoItem>> findAll() async {
@@ -26,12 +26,7 @@ class TodoItemRepository {
     final querySnapshot = await collectionRef.get();
     return querySnapshot.docs
         .map(
-          (item) => TodoItem(
-            id: item.id,
-            title: item['title'],
-            detail: item['detail'],
-            isDone: item['isDone'],
-          ),
+          (item) => TodoItem.fromJson(item.data()),
         )
         .toList();
   }
@@ -39,11 +34,7 @@ class TodoItemRepository {
   Future<TodoItem> findById({required String id}) async {
     final collectionRef = _db.collection('todo_item');
     final item = await collectionRef.doc(id).get();
-    return TodoItem(
-        id: item.id,
-        title: item['title'],
-        detail: item['detail'],
-        isDone: item['isDone']);
+    return TodoItem.fromJson(item.data()!);
   }
 
   Future<void> update({
@@ -51,8 +42,7 @@ class TodoItemRepository {
   }) async {
     final collectionRef = _db.collection('todo_item');
     final documentRef = collectionRef.doc(item.id);
-    await documentRef.update(
-        {'title': item.title, 'detail': item.detail, 'isDone': item.isDone});
+    await documentRef.update(item.toJson());
   }
 
   Future<void> updateIsDone({required String id, required bool? isDone}) async {

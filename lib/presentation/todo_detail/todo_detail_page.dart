@@ -4,6 +4,8 @@ import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
 
+import 'widget.dart';
+
 class TodoItemDetailModal extends ConsumerWidget {
   const TodoItemDetailModal({this.todoItem, Key? key}) : super(key: key);
   final TodoItem? todoItem;
@@ -26,16 +28,15 @@ class TodoItemDetailModal extends ConsumerWidget {
             Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: ReusableTextField(
+                    textEditingController: titleTextController,
+                    todoItem: todoItem,
                     margin: const EdgeInsets.fromLTRB(60, 0, 60, 20),
-                    child: TextField(
-                      style: const TextStyle(
-                        fontSize: 25,
-                      ),
-                      controller: titleTextController,
-                      decoration: InputDecoration(
-                          hintText: todoItem == null ? '明日9時会議' : null),
-                    ),
+                    maxLines: 1,
+                    minLines: 1,
+                    fontSize: 25,
+                    exampleSentence: '明日5時起床',
+                    border: null,
                   ),
                 ),
                 Container(
@@ -43,8 +44,9 @@ class TodoItemDetailModal extends ConsumerWidget {
                   child: ElevatedButton(
                       child: Text(todoItem == null ? '新規作成' : '更新'),
                       onPressed: () async {
-                        await notifier.onPush(titleTextController.text,
-                            detailTextController.text);
+                        await notifier.onPush(
+                            title: titleTextController.text,
+                            detail: detailTextController.text);
                         listNotifier.init();
                         notifier.cleanState();
                         Navigator.pop(context);
@@ -52,17 +54,15 @@ class TodoItemDetailModal extends ConsumerWidget {
                 )
               ],
             ),
-            Container(
+            ReusableTextField(
+              textEditingController: detailTextController,
+              todoItem: todoItem,
               margin: const EdgeInsets.fromLTRB(60, 0, 60, 140),
-              child: TextField(
-                maxLines: 10,
-                minLines: 5,
-                controller: detailTextController,
-                decoration: InputDecoration(
-                  hintText: todoItem == null ? '例：大西さんと京都駅の大山オフィスにて会議' : null,
-                  border: const OutlineInputBorder(),
-                ),
-              ),
+              maxLines: 10,
+              minLines: 5,
+              fontSize: 20,
+              exampleSentence: '例：大西さんと京都駅の大山オフィスにて会議',
+              border: const OutlineInputBorder(),
             ),
           ],
         ),
