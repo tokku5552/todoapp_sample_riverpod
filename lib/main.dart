@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_page.dart';
+import 'package:todoapp_sample_riverpod/presentation/login_register/initial_page.dart';
 
 import 'common/colors.dart';
 
@@ -25,7 +25,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: colorCustom,
       ),
-      home: const TodoListPage(),
+      home: const InitialPage(),
     );
   }
 }
