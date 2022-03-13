@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_page.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
@@ -9,6 +10,7 @@ class TodoListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _auth = ref.watch(authenticationProvider);
     final state = ref.watch(todoListStateProvider);
     final notifier = ref.watch(todoListStateProvider.notifier);
     final detailNotifier = ref.watch(todoDetailStateProvider.notifier);
@@ -16,6 +18,13 @@ class TodoListPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo List Page'),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: const Icon(Icons.add_alarm))
+        ],
       ),
       body: Stack(
         children: [
