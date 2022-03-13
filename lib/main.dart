@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todoapp_sample_riverpod/presentation/login_register/initial_page.dart';
+import 'package:todoapp_sample_riverpod/presentation/login_register/auth_notifier.dart';
 
 import 'common/colors.dart';
 
@@ -15,17 +15,25 @@ Future<void> main() async {
   );
 }
 
-class App extends StatelessWidget {
+// final firebaseInitializeProvider = FutureProvider<FirebaseApp>((ref) async {
+//   return await Firebase.initializeApp();
+// });
+
+class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final initialize = ref.watch(firebaseInitializeProvider);
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-      ),
-      home: const InitialPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: colorCustom,
+        ),
+        home: const AuthChecker());
   }
 }
+
+// home: const InitialPage(),

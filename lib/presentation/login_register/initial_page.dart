@@ -21,7 +21,7 @@ class InitialPage extends ConsumerWidget {
               onPress: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return LoginPage();
+                  return RegisterPage();
                 }));
               },
               color: complementaryColorCustom,
@@ -64,7 +64,7 @@ class InitialPage extends ConsumerWidget {
               onPress: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return RegisterPage();
+                  return LoginPage();
                 }));
               },
               color: colorCustom,
