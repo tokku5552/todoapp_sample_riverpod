@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:todoapp_sample_riverpod/common/colors.dart';
+import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/presentation/login_register/login_page.dart';
 import 'package:todoapp_sample_riverpod/presentation/login_register/register_page.dart';
 import 'package:todoapp_sample_riverpod/presentation/login_register/reusable_widget/button_widget.dart';
@@ -9,6 +11,8 @@ class InitialPage extends ConsumerWidget {
   const InitialPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _auth = ref.watch(authenticationProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -73,33 +77,22 @@ class InitialPage extends ConsumerWidget {
             SizedBox(
               height: 150,
             ),
-            ReusableButton(
-              width: 250,
-              text: 'Google',
-              onPress: () {},
-              color: colorCustom,
-              fontColor: Colors.white,
-            ),
+            SignInButton(Buttons.Google, onPressed: () async {
+              _auth.signInWithGoogle(context).whenComplete(
+                  () => _auth.authStateChange.listen((event) async {
+                        if (event == null) {}
+                      }));
+            }),
             SizedBox(
               height: 10,
             ),
-            ReusableButton(
-              width: 250,
-              text: 'Apple',
-              onPress: () {},
-              color: colorCustom,
-              fontColor: Colors.white,
-            ),
+            SignInButton(Buttons.Apple, onPressed: () {}),
             SizedBox(
               height: 10,
             ),
-            ReusableButton(
-              width: 250,
-              text: 'Twitter',
-              onPress: () {},
-              color: colorCustom,
-              fontColor: Colors.white,
-            ),
+            SignInButton(Buttons.Twitter, onPressed: () async {
+              await _auth.signInWithTwitter();
+            }),
           ],
         ),
       ),

@@ -9,9 +9,10 @@ final todoItemRepository = Provider((ref) => TodoItemRepository());
 class TodoItemRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<String> create({required TodoItem item}) async {
-    final collectionRef = _db.collection('todo_item');
-    final newDoc = collectionRef.doc();
+  Future<String> create(
+      {required TodoItem item, required String userId}) async {
+    final collectionRef = _db.collection('users');
+    final newDoc = collectionRef.doc(userId).collection('todo_item').doc();
     await newDoc.set({
       'id': newDoc.id,
       'title': item.title,
@@ -21,9 +22,10 @@ class TodoItemRepository {
     return newDoc.id;
   }
 
-  Future<List<TodoItem>> findAll() async {
-    final collectionRef = _db.collection('todo_item');
-    final querySnapshot = await collectionRef.get();
+  Future<List<TodoItem>> findAll({required String userId}) async {
+    final collectionRef = _db.collection('users');
+    final querySnapshot =
+        await collectionRef.doc(userId).collection('todo_item').get();
     return querySnapshot.docs
         .map(
           (item) => TodoItem.fromJson(item.data()),
@@ -31,27 +33,45 @@ class TodoItemRepository {
         .toList();
   }
 
-  Future<TodoItem> findById({required String id}) async {
-    final collectionRef = _db.collection('todo_item');
-    final item = await collectionRef.doc(id).get();
+  Future<TodoItem> findById({
+    required String id,
+    required String userId,
+  }) async {
+    final collectionRef = _db.collection('users');
+    final item =
+        await collectionRef.doc(userId).collection('todo_item').doc(id).get();
     return TodoItem.fromJson(item.data()!);
   }
 
   Future<void> update({
     required TodoItem item,
+    required String userId,
   }) async {
-    final collectionRef = _db.collection('todo_item');
-    final documentRef = collectionRef.doc(item.id);
+    final collectionRef = _db.collection('users');
+    final documentRef =
+        collectionRef.doc(userId).collection('todo_item').doc(item.id);
     await documentRef.update(item.toJson());
   }
 
-  Future<void> updateIsDone({required String id, required bool? isDone}) async {
-    final collectionRef = _db.collection('todo_item');
-    await collectionRef.doc(id).update({'isDone': isDone!});
+  Future<void> updateIsDone({
+    required String id,
+    required bool? isDone,
+    required String userId,
+  }) async {
+    final collectionRef = _db.collection('users');
+    await collectionRef
+        .doc(userId)
+        .collection('todo_item')
+        .doc(id)
+        .update({'isDone': isDone!});
   }
 
-  Future<void> deleteItem({required String id}) async {
-    final documentRef = _db.collection('todo_item').doc(id);
+  Future<void> deleteItem({
+    required String id,
+    required String userId,
+  }) async {
+    final documentRef =
+        _db.collection('users').doc(userId).collection('todo_item').doc(id);
     documentRef.delete();
   }
 }

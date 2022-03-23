@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_notifier.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_notifier.dart';
@@ -46,7 +47,8 @@ class TodoItemDetailModal extends ConsumerWidget {
                       onPressed: () async {
                         await notifier.onPush(
                             title: titleTextController.text,
-                            detail: detailTextController.text);
+                            detail: detailTextController.text,
+                            userID: userId!);
                         listNotifier.init();
                         notifier.cleanState();
                         Navigator.pop(context);

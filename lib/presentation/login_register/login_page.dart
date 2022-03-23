@@ -12,6 +12,7 @@ class LoginPage extends ConsumerWidget {
     final _auth = ref.watch(authenticationProvider);
     final emailTextController = TextEditingController();
     final passwordTextController = TextEditingController();
+
     return Scaffold(
         backgroundColor: colorCustom,
         body: Column(
@@ -37,8 +38,10 @@ class LoginPage extends ConsumerWidget {
               width: 370,
               text: 'Login',
               onPress: () async {
-                await _auth.signInWithEmailAndPassword(emailTextController.text,
-                    passwordTextController.text, context);
+                await _auth
+                    .signInWithEmailAndPassword(emailTextController.text,
+                        passwordTextController.text, context)
+                    .whenComplete(() => null);
               },
               color: Colors.white,
               fontColor: Colors.black,

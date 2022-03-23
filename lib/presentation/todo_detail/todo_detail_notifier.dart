@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/infrastructure/todo_item_repository.dart';
 import 'package:todoapp_sample_riverpod/model/todo_item.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_detail/todo_detail_state.dart';
@@ -18,15 +19,15 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
   final TodoItemRepository _todoItemRepository;
 
   Future<void> create() async {
-    final newItemId =
-        await _todoItemRepository.create(item: TodoItem.initialize());
+    final newItemId = await _todoItemRepository.create(
+        item: TodoItem.initialize(), userId: userId!);
     await passTodoItemId(itemId: newItemId);
   }
 
   Future<void> updateItem({
     required TodoItem todoItem,
   }) async {
-    await _todoItemRepository.update(item: todoItem);
+    await _todoItemRepository.update(item: todoItem, userId: userId!);
   }
 
   void changeTitleAndDetail(String title, String detail) {
@@ -42,19 +43,22 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
 
   Future<void> passTodoItemId({required String itemId}) async {
     state = state.copyWith(isFetching: true);
-    final item = await _todoItemRepository.findById(id: itemId);
+    final item =
+        await _todoItemRepository.findById(id: itemId, userId: userId!);
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
   Future<void> itemDetail({required String itemId}) async {
     state = state.copyWith(isFetching: true);
-    final item = await _todoItemRepository.findById(id: itemId);
+    final item =
+        await _todoItemRepository.findById(id: itemId, userId: userId!);
     state = state.copyWith(todoItem: item, isFetching: false);
   }
 
   Future<void> onPush({
     required String title,
     required String detail,
+    required String userID,
   }) async {
     if (state.todoItem == null) {
       await create();
@@ -64,7 +68,8 @@ class TodoDetailNotifier extends StateNotifier<TodoDetailState> {
   }
 
   Future<void> checkBox({required String id, required bool? isDone}) async {
-    await _todoItemRepository.updateIsDone(id: id, isDone: isDone);
+    await _todoItemRepository.updateIsDone(
+        id: id, isDone: isDone, userId: userId!);
   }
 
   void cleanState() {

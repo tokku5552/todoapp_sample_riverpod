@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/infrastructure/todo_item_repository.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_state.dart';
 
@@ -18,11 +19,11 @@ class TodoListNotifier extends StateNotifier<TodoListState> {
 
   Future<void> init() async {
     state = state.copyWith(isFetching: true);
-    final list = await _todoItemRepository.findAll();
+    final list = await _todoItemRepository.findAll(userId: userId!);
     state = state.copyWith(todoList: list, isFetching: false);
   }
 
   Future<void> deleteItem({required String id}) async {
-    await _todoItemRepository.deleteItem(id: id);
+    await _todoItemRepository.deleteItem(id: id, userId: userId!);
   }
 }

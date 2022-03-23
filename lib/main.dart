@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todoapp_sample_riverpod/presentation/login_register/auth_notifier.dart';
+import 'package:todoapp_sample_riverpod/presentation/login_register/auth_provider.dart';
 
 import 'common/colors.dart';
 
