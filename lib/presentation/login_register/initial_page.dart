@@ -86,7 +86,9 @@ class InitialPage extends ConsumerWidget {
             SizedBox(
               height: 10,
             ),
-            SignInButton(Buttons.Apple, onPressed: () {}),
+            SignInButton(Buttons.Apple, onPressed: () async {
+              await _auth.signInWithApple();
+            }),
             SizedBox(
               height: 10,
             ),

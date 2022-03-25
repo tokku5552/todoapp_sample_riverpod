@@ -4,6 +4,7 @@ import 'package:todoapp_sample_riverpod/infrastructure/auth_repository.dart';
 import 'package:todoapp_sample_riverpod/presentation/login_register/initial_page.dart';
 import 'package:todoapp_sample_riverpod/presentation/todo_list/todo_list_page.dart';
 
+
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({Key? key}) : super(key: key);
 
