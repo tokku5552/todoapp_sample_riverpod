@@ -28,7 +28,7 @@ class TodoItemRepository {
         await collectionRef.doc(userId).collection('todo_item').get();
     return querySnapshot.docs
         .map(
-          (item) => TodoItem.fromJson(item.data()),
+          (item) => TodoItem.fromJson(jsonFromSnapshot(item)),
         )
         .toList();
   }
@@ -74,4 +74,14 @@ class TodoItemRepository {
         _db.collection('users').doc(userId).collection('todo_item').doc(id);
     documentRef.delete();
   }
+
+  Map<String, dynamic> jsonFromSnapshot<T extends DocumentSnapshot>(T json) {
+    return {
+      'id' : json.id,
+      'title': json['title'],
+      'detail': json['detail'],
+      'isDone': json['isDone'],
+    };
+  }
+
 }

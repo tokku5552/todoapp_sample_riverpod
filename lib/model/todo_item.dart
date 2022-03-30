@@ -15,5 +15,5 @@ class TodoItem with _$TodoItem {
   factory TodoItem.fromJson(Map<String, dynamic> json) =>
       _$TodoItemFromJson(json);
 
-  factory TodoItem.initialize() => TodoItem(title: "", detail: "");
+  factory TodoItem.initialize() => TodoItem(id: null,title: "", detail: "");
 }
